@@ -4,9 +4,40 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/ogimage/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Vue + TS</title>
-    <script type="module" crossorigin src="/ogimage/assets/index-BOQCU1fk.js"></script>
-    <link rel="stylesheet" crossorigin href="/ogimage/assets/index-1byZ3dr3.css">
+    <title>OG Image Generator</title>
+    <meta name="description" content="基於 URL 參數產生不同比例、顏色和樣式的 Open Graph 圖片" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OG Image Generator" />
+    <meta property="og:description" content="基於 URL 參數產生不同比例、顏色和樣式的 Open Graph 圖片" />
+    <meta property="og:image" id="og-image" content="https://dummyimage.com/16:9x1080/" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="OG Image Generator" />
+    <meta property="twitter:description" content="基於 URL 參數產生不同比例、顏色和樣式的 Open Graph 圖片" />
+    <meta property="twitter:image" id="twitter-image" content="https://dummyimage.com/16:9x1080/" />
+    
+    <script>
+      // 動態更新 OG 圖片
+      window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ratio = urlParams.get('ratio') || '16:9';
+        const size = urlParams.get('size') || '1080';
+        const bgColor = urlParams.get('bg') || '4285f4';
+        const textColor = urlParams.get('color') || 'ffffff';
+        const text = urlParams.get('text') ? `&text=${encodeURIComponent(urlParams.get('text'))}` : '';
+        
+        const imageUrl = `https://dummyimage.com/${ratio}x${size}/${bgColor}/${textColor}${text}`;
+        
+        // 更新 OG 圖片
+        document.getElementById('og-image').setAttribute('content', imageUrl);
+        document.getElementById('twitter-image').setAttribute('content', imageUrl);
+      });
+    </script>
+    <script type="module" crossorigin src="/ogimage/assets/index-_Ud1NurE.js"></script>
+    <link rel="stylesheet" crossorigin href="/ogimage/assets/index-YLi3yTeN.css">
   </head>
   <body>
     <div id="app"></div>
