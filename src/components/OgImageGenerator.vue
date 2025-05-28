@@ -15,7 +15,9 @@ const {
   bgColor,
   textColor,
   imageUrl,
-  dimensions
+  dimensions,
+  isLoading,
+  isImageLoaded
 } = useOgImage(props.defaultRatio || '16:9', props.defaultSize || 1080)
 
 // 當前頁面 URL
@@ -159,7 +161,8 @@ const handleTextColorInputChange = (event: Event) => {
 
     <div class="preview">
       <h3>圖片預覽:</h3>
-      <div class="image-container">
+      <div class="image-container" :class="{ 'loading': isLoading }">
+        <div v-if="isLoading" class="loading-indicator">載入中...</div>
         <img :src="imageUrl" :width="dimensions.width" :height="dimensions.height" alt="OG Image Preview" />
       </div>
     </div>
@@ -278,12 +281,36 @@ select {
   padding: 20px;
   border-radius: 8px;
   overflow: hidden;
+  position: relative;
+  min-height: 200px;
+}
+
+.image-container.loading {
+  background-color: #f0f0f0;
 }
 
 .image-container img {
   max-width: 100%;
   height: auto;
   object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+.image-container.loading img {
+  opacity: 0.5;
+}
+
+.loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  z-index: 10;
 }
 
 .link-info {

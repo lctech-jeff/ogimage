@@ -5,6 +5,8 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
   const size = ref(defaultSize)
   const bgColor = ref('4285f4') // Google 藍色作為預設背景色
   const textColor = ref('ffffff') // 白色作為預設文字色
+  const isLoading = ref(false)
+  const isImageLoaded = ref(false)
 
   // 解析URL參數
   const parseUrlParams = () => {
@@ -33,6 +35,26 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
     let url = `https://dummyimage.com/${ratio.value}x${size.value}/${bgColor.value}/${textColor.value}`
     return url
   })
+
+  // 預加載圖片
+  const preloadImage = (url: string) => {
+    isLoading.value = true
+    isImageLoaded.value = false
+    
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.onload = () => {
+        isLoading.value = false
+        isImageLoaded.value = true
+        resolve(url)
+      }
+      img.onerror = () => {
+        isLoading.value = false
+        reject(new Error('Image failed to load'))
+      }
+      img.src = url
+    })
+  }
 
   // 計算實際尺寸
   const dimensions = computed(() => {
@@ -65,7 +87,14 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
   }
 
   // 更新 Meta 標籤
-  const updateMetaTags = () => {
+  const updateMetaTags = async () => {
+    // 預加載圖片
+    try {
+      await preloadImage(imageUrl.value)
+    } catch (error) {
+      console.error('圖片預加載失敗:', error)
+    }
+    
     const ogImageTag = document.getElementById('og-image')
     const twitterImageTag = document.getElementById('twitter-image')
     
@@ -79,7 +108,7 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
   }
 
   // 監聽比例和尺寸變化
-  watch([ratio, size], () => {
+  watch([ratio, size, bgColor, textColor], () => {
     updateUrl()
     updateMetaTags()
   })
@@ -98,6 +127,8 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
     imageUrl,
     dimensions,
     updateUrl,
-    parseUrlParams
+    parseUrlParams,
+    isLoading,
+    isImageLoaded
   }
 }
