@@ -14,8 +14,6 @@ const {
   size,
   bgColor,
   textColor,
-  text,
-  fontFamily,
   imageUrl,
   dimensions
 } = useOgImage(props.defaultRatio || '16:9', props.defaultSize || 1080)
@@ -51,15 +49,6 @@ const sizeOptions = [
   { label: '中 (720px)', value: 720 },
   { label: '大 (1080px)', value: 1080 },
   { label: '超大 (1440px)', value: 1440 }
-]
-
-// 字體選項
-const fontOptions = [
-  { label: 'Arial', value: 'arial' },
-  { label: 'Helvetica', value: 'helvetica' },
-  { label: 'Times New Roman', value: 'times' },
-  { label: 'Courier', value: 'courier' },
-  { label: '微軟正黑體', value: 'microsoft-jhenghei' }
 ]
 
 // 監聽參數變化
@@ -115,22 +104,6 @@ const handleTextColorInputChange = (event: Event) => {
   }
 }
 
-// 處理文字變化
-const handleTextChange = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  if (target) {
-    text.value = target.value
-  }
-}
-
-// 處理字體變化
-const handleFontChange = (event: Event) => {
-  const target = event.target as HTMLSelectElement
-  if (target) {
-    fontFamily.value = target.value
-  }
-}
-
 
 </script>
 
@@ -179,25 +152,6 @@ const handleFontChange = (event: Event) => {
               <input type="color" id="textColor" :value="'#' + textColor" @input="handleTextColorChange" />
               <input type="text" :value="'#' + textColor" @input="handleTextColorInputChange" maxlength="7" />
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="control-section">
-        <h3>文字設定</h3>
-        <div class="control-group full-width">
-          <label for="text">圖片文字:</label>
-          <input type="text" id="text" :value="text" @input="handleTextChange" placeholder="輸入顯示在圖片上的文字..." />
-        </div>
-
-        <div class="control-row">
-          <div class="control-group">
-            <label for="font">字體:</label>
-            <select id="font" :value="fontFamily" @change="handleFontChange">
-              <option v-for="option in fontOptions" :key="option.value" :value="option.value">
-                {{ option.label }}
-              </option>
-            </select>
           </div>
         </div>
       </div>

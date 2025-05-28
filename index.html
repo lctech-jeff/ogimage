@@ -26,10 +26,8 @@
         const ratio = urlParams.get('ratio') || '16:9';
         const size = urlParams.get('size') || '1080';
         const bgColor = urlParams.get('bg') || '4285f4';
-        const textColor = urlParams.get('color') || 'ffffff';
-        const text = urlParams.get('text') ? `&text=${encodeURIComponent(urlParams.get('text'))}` : '';
         
-        const imageUrl = `https://dummyimage.com/${ratio}x${size}/${bgColor}/${textColor}${text}`;
+        const imageUrl = `https://dummyimage.com/${ratio}x${size}/${bgColor}`;
         
         // 更新 OG 圖片
         document.getElementById('og-image').setAttribute('content', imageUrl);

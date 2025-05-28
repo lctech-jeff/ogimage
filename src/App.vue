@@ -21,12 +21,10 @@ import OgImageGenerator from './components/OgImageGenerator.vue'
         <li><code>size</code> - 圖片尺寸，單位為像素</li>
         <li><code>bg</code> - 背景顏色，六位十六進位色碼</li>
         <li><code>color</code> - 文字顏色，六位十六進位色碼</li>
-        <li><code>text</code> - 圖片上顯示的文字</li>
-        <li><code>font</code> - 字體，例如 <code>arial</code>, <code>helvetica</code></li>
       </ul>
       
       <h4>範例 URL</h4>
-      <code>?ratio=16:9&size=1080&bg=4285f4&color=ffffff&text=Hello%20World&font=arial</code>
+      <code>?ratio=16:9&size=1080&bg=4285f4&color=ffffff</code>
     </div>
   </footer>
 </template>

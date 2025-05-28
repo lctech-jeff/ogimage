@@ -5,8 +5,6 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
   const size = ref(defaultSize)
   const bgColor = ref('4285f4') // Google 藍色作為預設背景色
   const textColor = ref('ffffff') // 白色作為預設文字色
-  const text = ref('') // 圖片上的文字
-  const fontFamily = ref('arial') // 預設字體
 
   // 解析URL參數
   const parseUrlParams = () => {
@@ -15,8 +13,6 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
     const sizeParam = urlParams.get('size')
     const bgParam = urlParams.get('bg')
     const textColorParam = urlParams.get('color')
-    const textParam = urlParams.get('text')
-    const fontParam = urlParams.get('font')
 
     if (ratioParam) {
       ratio.value = ratioParam
@@ -30,22 +26,11 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
     if (textColorParam) {
       textColor.value = textColorParam.replace('#', '')
     }
-    if (textParam) {
-      text.value = decodeURIComponent(textParam)
-    }
-    if (fontParam) {
-      fontFamily.value = fontParam
-    }
   }
 
   // 計算圖片URL
   const imageUrl = computed(() => {
     let url = `https://dummyimage.com/${ratio.value}x${size.value}/${bgColor.value}/${textColor.value}`
-    
-    if (text.value) {
-      url += `&text=${encodeURIComponent(text.value)}`
-    }
-    
     return url
   })
 
@@ -75,16 +60,6 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
     url.searchParams.set('size', size.value.toString())
     url.searchParams.set('bg', bgColor.value)
     url.searchParams.set('color', textColor.value)
-    
-    if (text.value) {
-      url.searchParams.set('text', encodeURIComponent(text.value))
-    } else {
-      url.searchParams.delete('text')
-    }
-    
-    url.searchParams.set('font', fontFamily.value)
-    
-
     
     window.history.replaceState({}, '', url)
   }
@@ -120,8 +95,6 @@ export function useOgImage(defaultRatio = '16:9', defaultSize = 1080) {
     size,
     bgColor,
     textColor,
-    text,
-    fontFamily,
     imageUrl,
     dimensions,
     updateUrl,
